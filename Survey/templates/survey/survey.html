@@ -1,0 +1,65 @@
+{% extends 'survey/base.html' %}
+
+
+{% block title %}SumoSurvey{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="../static/css/base.css" type="text/css">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+<script src="http://code.jquery.com/jquery-2.1.0.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+
+{% endblock %}
+
+{% block content %}
+
+{% if question %}
+
+<p class="txt text-center"> {{ question.question_text }} </p>
+<div id="err_msg" class="text-center" style="color:red;"></div>
+
+<div class="jumborton">
+
+<form action="" method="post">
+{% csrf_token %}
+<input type="hidden" value="{{ question.id}}" name="question_id" />
+{% for choice in question.choice_set.all %}
+    <div class="radio">
+    <input class="radio" type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
+    <label for="choice{{ forloop.counter }}"><span class="fa-stack">
+                <i class="fa fa-circle-o fa-stack-1x"></i>
+                <i class="fa fa-circle fa-stack-1x"></i>
+            </span>{{ choice.choice_text }}</label><br />
+    </div>
+{% endfor %}
+<p class="text-center"> <input type="submit" value="Vote" class='btn' onclick="return radioValidation();"/> </p>
+</form>
+
+</div>
+
+<script type="text/javascript">
+    function radioValidation(){
+
+        var gender = document.getElementsByName('choice');
+        var genValue = false;
+
+        for(var i=0; i<gender.length;i++){
+            if(gender[i].checked == true){
+                genValue = true;    
+            }
+        }
+        if(!genValue){
+            document.getElementById('err_msg').innerHTML = "Please choose an answer";
+            return false;
+        }
+
+    }
+</script>
+
+
+{% else %}
+<h1 class="txt text-center">You answered all the questions!</h1>
+{% endif %}
+
+{% endblock %}

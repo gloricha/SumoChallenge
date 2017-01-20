@@ -1,0 +1,45 @@
+{% load staticfiles %}
+<html>
+  <head>
+      <title>{% block title %}{% endblock %}</title>
+      {% block extra_head %}{% endblock %}
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  </head>
+
+  <body>
+
+
+   <div class="container">
+      <div class="header clearfix">
+        <a href="/survey/"><h3 class="text-muted">Sumo Survey</h3></a>
+        <ul class="nav navbar-nav navbar-right title">
+            <li>
+                <a href="/admin/">admin</a>
+            </li>
+            <li>
+                <a href="/survey/results/">results</a>
+            </li>
+        </ul>
+    
+      </div>
+
+    <!-- Begin page content -->
+    <div class="jumbotron">
+      
+      {% block content %}
+      {% endblock %}
+      
+    </div>
+
+    <footer class="footer">
+      <div class="container">
+        <p class="text-muted">&copy; Gloria 2017</p>
+      </div>
+    </footer>
+
+    </div> <!-- /container -->
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </body>
+</html>

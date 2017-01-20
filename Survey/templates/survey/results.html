@@ -1,0 +1,44 @@
+{% extends 'survey/base.html' %}
+
+{% block title %}SumoSurvey|Results{% endblock %}
+
+{% block extra_head %}
+
+<link rel="stylesheet" href="../../static/css/base.css" type="text/css">
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    {% for question in questions %}
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        
+        l = [ ['answer','votes'] ];
+        {% for choice in question.choice_set.all %}
+        l = l.concat( [ ["{{ choice.choice_text }}", {{ choice.votes }}] ] ) ;
+        {% endfor %}
+        
+        var data = google.visualization.arrayToDataTable(l);
+
+        var options = {
+          title: "{{question.question_text}}"
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart{{question.id}}'));
+
+        chart.draw(data, options);
+      }
+    </script>
+    {% endfor %}
+{% endblock %}
+
+{% block content %}
+
+{% if questions %}
+{% for question in questions %}
+
+<div id='chart{{question.id}}' style="width: 500px; height: 300px; margin: 40 auto;"></div>
+
+{% endfor %}
+{% endif %}
+{% endblock %}
